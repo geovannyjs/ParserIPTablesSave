@@ -78,6 +78,8 @@ sub delete {
 
 =head2 disable
 
+	disable a rule
+
 =cut
 
 sub disable {
@@ -92,6 +94,8 @@ sub disable {
 
 
 =head2 enable
+
+	enable a rule
 
 =cut
 
