@@ -9,15 +9,15 @@ use Tie::File;
 
 =head1 NAME
 
-Parser::IPTables::Save - The great new Parser::IPTables::Save!
+Parser::IPTables::Save - A parser for iptables-save output files.
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 
 =head1 SYNOPSIS
@@ -43,14 +43,16 @@ Perhaps a little code snippet.
 	$iptables_save->disable(10);
 	$iptables_save->enable(10);
 
-	$teste->save();
+	$iptables_save->save();
 
 
 =head1 METHODS
 
 =head2 create
 
-	create a rule
+Create a new rule
+
+	$iptables_save->create({ chain => 'POSTROUTING', source => '192.168.1.0/24', target => 'MASQUERADE', comment => 'Rule to masquerade' });
 
 =cut
 
@@ -64,7 +66,9 @@ sub create {
 
 =head2 delete
 
-	delete a rule
+Delete a rule
+
+	$iptables_save->delete(8);
 
 =cut
 
@@ -137,6 +141,10 @@ sub new {
 
 
 =head2 table
+
+Set table name
+
+	$iptables_save->table('filter');
 
 =cut
 
@@ -244,10 +252,10 @@ sub table {
 			$rule->{target_param1} = $2 if($line =~ /-j\s+(.*?)\s+([\w\-]*)/);
 
 			# target param2
-			$rule->{target_param2} = $3 if($line =~ /-j\s+(.*)\s+([\w\-]*)\s+([\w\-]*)/);
+			$rule->{target_param2} = $3 if($line =~ /-j\s+(.*)\s+([\w\-]*)\s+([\w\-\.\:]*)/);
 
 			# comment
-			$rule->{comment} = $1 if($line =~ /--comment\s+\"(.*)\"/g);
+			$rule->{comment} = $1 if($line =~ /--comment\s+\"(.*)\"/);
 
 			push(@rules, $rule);
 		}
@@ -347,6 +355,8 @@ sub move {
 
 
 =head2 save
+
+	$iptables_save->save();
 
 =cut
 
