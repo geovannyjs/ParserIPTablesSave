@@ -341,7 +341,10 @@ sub DESTROY {
 
 =head2 move
 
-	Move rules 
+Move rules 
+
+	# Move rule of index 1, 3 positions down
+	$iptables_save->move(1, 3);
 
 =cut
 
