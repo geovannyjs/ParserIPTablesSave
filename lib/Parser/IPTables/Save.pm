@@ -57,10 +57,15 @@ Create a new rule
 =cut
 
 sub create {
-	my($self, $rule) = @_;
+	my($self, $rule, $index) = @_;
 
-	unshift(@{ $self->{rules} }, $rule);
-
+	if($index) {
+		# replace
+		splice(@{ $self->{rules}}, $index, 0, ($rule));
+	}
+	else {
+		unshift(@{ $self->{rules} }, $rule);
+	}
 }
 
 
@@ -245,19 +250,30 @@ sub table {
 				} 
 			}
 
+
 			# target
-			$rule->{target} = $1 if($line =~ /-j\s+([\w]+)/g);
+			$rule->{target} = $1 if($line =~ /-j\s+([\w]+)/);
 
 			# target param1
 			$rule->{target_param1} = $2 if($line =~ /-j\s+(.*?)\s+([\w\-]*)/);
 
 			# target param2
-			$rule->{target_param2} = $3 if($line =~ /-j\s+(.*)\s+([\w\-]*)\s+([\w\-\.\:]*)/);
+			$rule->{target_param2} = $3 if($line =~ /-j\s+(.*?)\s+([\w\-]*)\s+([\w\-\.\:]*)/);
+
+
+			# prevent target_param1 and targer_param2 from get --comment
+			if($rule->{target_param1} && $rule->{target_param1} eq '--comment') {
+				$rule->{target_param1} = '';
+				$rule->{target_param2} = '';
+			}
+
 
 			# comment
 			$rule->{comment} = $1 if($line =~ /--comment\s+\"(.*)\"/);
 
+
 			push(@rules, $rule);
+
 		}
 
 		last if($get_lines == 1 && $line eq 'COMMIT');
