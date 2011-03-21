@@ -246,7 +246,7 @@ sub table {
 			}
 
 			# state
-			if($line =~ /--state\s+(\w+)/g) {
+			if($line =~ /--state\s+([\w,]+)/g) {
 				$rule->{state} = $1;
 			}
 
