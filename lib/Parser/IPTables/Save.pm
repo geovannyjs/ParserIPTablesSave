@@ -225,6 +225,26 @@ sub table {
 				} 
 			}
 
+			# input interface
+			if($line =~ /-i\s+([\w\d\!\+]+)/g) {
+				$rule->{iface_input} = $1;
+
+				# when get only ! character
+				if($rule->{iface_input} =~ /^\!$/) {
+					$rule->{iface_input} = '! '.$1 if($line =~ /-i\s+\!\s+([\w\d\!\+]+)/);
+				}
+			}
+
+			# output interface
+			if($line =~ /-o\s+([\w\d\!\+]+)/g) {
+				$rule->{iface_output} = $1;
+
+				# when get only ! character
+				if($rule->{iface_output} =~ /^\!$/) {
+					$rule->{iface_output} = '! '.$1 if($line =~ /-o\s+\!\s+([\w\d\!\+]+)/);
+				}
+			}
+
 			# state
 			if($line =~ /--state\s+(\w+)/g) {
 				$rule->{state} = $1;
