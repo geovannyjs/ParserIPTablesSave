@@ -270,6 +270,10 @@ sub table {
 				} 
 			}
 
+			# icmp-type
+			if($line =~ /--icmp-type\s+(\d+)/g) {
+				$rule->{icmp_type} = $1;
+			}
 
 			# target
 			$rule->{target} = $1 if($line =~ /-j\s+([\w]+)/);
@@ -446,6 +450,9 @@ sub save {
 
 		# destination port
 		$str_rule .= '--dport '.$rule->{port_destination}.' ' if($rule->{port_destination}); 
+
+		# icmp_type
+		$str_rule .= '--icmp-type '.$rule->{icmp_type}.' ' if($rule->{icmp_type});
 
 		# target
 		$str_rule .= '-j '.$rule->{target}.' ' if($rule->{target}); 
