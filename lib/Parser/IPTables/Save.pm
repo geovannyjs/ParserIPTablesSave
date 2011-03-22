@@ -231,8 +231,28 @@ sub table {
 				} 
 			}
 
+			# input interface
+			if($line =~ /-i\s+([\w\d\!\+]+)/g) {
+				$rule->{iface_input} = $1;
+
+				# when get only ! character
+				if($rule->{iface_input} =~ /^\!$/) {
+					$rule->{iface_input} = '! '.$1 if($line =~ /-i\s+\!\s+([\w\d\!\+]+)/);
+				}
+			}
+
+			# output interface
+			if($line =~ /-o\s+([\w\d\!\+]+)/g) {
+				$rule->{iface_output} = $1;
+
+				# when get only ! character
+				if($rule->{iface_output} =~ /^\!$/) {
+					$rule->{iface_output} = '! '.$1 if($line =~ /-o\s+\!\s+([\w\d\!\+]+)/);
+				}
+			}
+
 			# state
-			if($line =~ /--state\s+(\w+)/g) {
+			if($line =~ /--state\s+([\w,]+)/g) {
 				$rule->{state} = $1;
 			}
 
@@ -256,6 +276,10 @@ sub table {
 				} 
 			}
 
+			# icmp-type
+			if($line =~ /--icmp-type\s+(\d+)/g) {
+				$rule->{icmp_type} = $1;
+			}
 
 			# target
 			$rule->{target} = $1 if($line =~ /-j\s+([\w]+)/);
@@ -432,6 +456,9 @@ sub save {
 
 		# destination port
 		$str_rule .= '--dport '.$rule->{port_destination}.' ' if($rule->{port_destination}); 
+
+		# icmp_type
+		$str_rule .= '--icmp-type '.$rule->{icmp_type}.' ' if($rule->{icmp_type});
 
 		# target
 		$str_rule .= '-j '.$rule->{target}.' ' if($rule->{target}); 
