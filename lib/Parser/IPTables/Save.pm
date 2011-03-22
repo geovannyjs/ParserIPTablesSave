@@ -13,11 +13,11 @@ Parser::IPTables::Save - A parser for iptables-save output files.
 
 =head1 VERSION
 
-Version 0.02
+Version 0.04
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.04';
 
 
 =head1 SYNOPSIS
@@ -87,7 +87,10 @@ sub delete {
 
 =head2 disable
 
-	disable a rule
+disable a rule
+
+	# disable rule with index 5
+	$iptables_save->disable(5);
 
 =cut
 
@@ -104,7 +107,10 @@ sub disable {
 
 =head2 enable
 
-	enable a rule
+enable a rule
+
+	# enable a rule previously disabled
+	$iptables_save->enable(5);
 
 =cut
 
