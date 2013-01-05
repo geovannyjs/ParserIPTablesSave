@@ -13,11 +13,11 @@ Parser::IPTables::Save - A parser for iptables-save output files.
 
 =head1 VERSION
 
-Version 0.04
+Version 0.0.5
 
 =cut
 
-our $VERSION = '0.04';
+our $VERSION = '0.0.5';
 
 
 =head1 SYNOPSIS
@@ -484,6 +484,10 @@ sub save {
 
 Geovanny Junio, C<< <geovannyjs at gmail.com> >>
 
+=head1 CONTRIBUTORS
+
+rpetre: Petru Rațiu
+
 =head1 BUGS
 
 Please report any bugs or feature requests to C<bug-parser-iptables-save at rt.cpan.org>, or through
@@ -528,7 +532,7 @@ L<http://search.cpan.org/dist/Parser-IPTables-Save/>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2010 Geovanny Junio.
+Copyright 2013 Geovanny Junio.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published
